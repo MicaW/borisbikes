@@ -14,6 +14,7 @@ class DockingStation
   end
 
   def dock_the_bike(bike)
+    raise "Station is full" if @stations_bike!=nil
     @stations_bike = bike
   end
 
