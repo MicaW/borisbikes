@@ -15,7 +15,7 @@ describe DockingStation do
     station = DockingStation.new
     bike = Bike.new
     station.dock_the_bike(bike)
-    expect(station.stations_bike) .to eq bike
+    expect(station.bikes.last) .to eq bike
   end
 
   it "won't release a bike when station is empty" do
@@ -25,7 +25,13 @@ describe DockingStation do
   it "won't dock a bike when station is full" do
     bike = Bike.new
     station = subject
-    station.dock_the_bike(bike)
-    expect{station.dock_the_bike(bike)}.to raise_error("Station is full")
+    expect{21.times {station.dock_the_bike(bike)}}.to raise_error("Station is full")
+  end
+
+  it "can store 20 bikes" do
+    dockingstation = DockingStation.new
+    20.times do
+      expect{dockingstation.dock_the_bike(Bike.new)}.not_to raise_error
+    end
   end
 end
