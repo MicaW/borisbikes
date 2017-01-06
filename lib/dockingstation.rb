@@ -6,12 +6,10 @@ class DockingStation
     @stations_bike = original_bike
   end
 
-attr_reader :stations_bike
-
-
-
+  attr_reader :stations_bike
 
   def release_bike
+    raise "No bikes in station" if @stations_bike==nil
     Bike.new
   end
 
