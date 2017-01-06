@@ -25,12 +25,12 @@ describe DockingStation do
   it "won't dock a bike when station is full" do
     bike = Bike.new
     station = subject
-    expect{21.times {station.dock_the_bike(bike)}}.to raise_error("Station is full")
+    expect{(DockingStation::DEFAULT_CAPACITY + 1).times {station.dock_the_bike(bike)}}.to raise_error("Station is full")
   end
 
   it "can store 20 bikes" do
     dockingstation = DockingStation.new
-    20.times do
+    (DockingStation::DEFAULT_CAPACITY).times do
       expect{dockingstation.dock_the_bike(Bike.new)}.not_to raise_error
     end
   end
