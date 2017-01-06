@@ -16,8 +16,9 @@ class DockingStation
     Bike.new
   end
 
-  def dock_the_bike(bike)
+  def dock_the_bike(bike, working = true)
     raise "Station is full" if full?
+    bike.working = false if working == false
     @bikes << bike
   end
 

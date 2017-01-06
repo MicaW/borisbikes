@@ -43,4 +43,22 @@ describe DockingStation do
   end
 
   #should respond_to(:release_bike).with(0).argument
+
+  it 'reports a bike as broken when I return it' do
+    #checks whether by default bike is working
+    station = subject
+    station.dock_the_bike(Bike.new)
+    expect(station.bikes.last.working).to eq(true)
+
+    #checks that if we pass that it is not working it communicates it to the bike
+    station = subject
+    station.dock_the_bike(Bike.new, false)
+    expect(station.bikes.last.working).to eq(false)
+
+    #chacks whether we can say straight to the bikethat it is not working
+    station = subject
+    station.dock_the_bike(Bike.new(false))
+    expect(station.bikes.last.working).to eq(false)
+  end
+
 end
