@@ -9,15 +9,24 @@ class DockingStation
   attr_reader :bikes
 
   def release_bike
-    raise "No bikes in station" if @bikes.length == 0
+    raise "No bikes in station" if empty?
     Bike.new
   end
 
   def dock_the_bike(bike)
-    raise "Station is full" if @bikes.length >= 20
+    raise "Station is full" if full?
     @bikes << bike
   end
 
+  private
+
+ def full?
+   @bikes.length >= 20
+ end
+
+ def empty?
+   @bikes.length == 0
+ end
 
 
 end
