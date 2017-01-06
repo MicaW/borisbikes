@@ -25,13 +25,22 @@ describe DockingStation do
   it "won't dock a bike when station is full" do
     bike = Bike.new
     station = subject
-    expect{(DockingStation::DEFAULT_CAPACITY + 1).times {station.dock_the_bike(bike)}}.to raise_error("Station is full")
+    expect{(station.capacity + 1).times {station.dock_the_bike(bike)}}.to raise_error("Station is full")
   end
 
   it "can store 20 bikes" do
-    dockingstation = DockingStation.new
-    (DockingStation::DEFAULT_CAPACITY).times do
+    dockingstation = subject
+    dockingstation.capacity.times do
       expect{dockingstation.dock_the_bike(Bike.new)}.not_to raise_error
     end
   end
+
+  it 'check that newly created station can respond to both 0 and 1 argument' do
+    expect {DockingStation.new(14)}.not_to raise_error
+    expect {DockingStation.new}.not_to raise_error
+    expect(DockingStation.new(14).capacity).to eq(14)
+    expect(subject.capacity).to eq(DockingStation::DEFAULT_CAPACITY)
+  end
+
+  #should respond_to(:release_bike).with(0).argument
 end
