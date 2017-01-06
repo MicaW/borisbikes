@@ -12,8 +12,8 @@ describe DockingStation do
 
   # actually docking the bike
   it "actually docking the bike" do
-    station = DockingStation.new
-    bike = Bike.new
+    station = subject
+    bike = double(:bike)
     station.dock_the_bike(bike)
     expect(station.bikes.last) .to eq bike
   end
@@ -23,7 +23,7 @@ describe DockingStation do
   end
 
   it "won't dock a bike when station is full" do
-    bike = Bike.new
+    bike = double(:bike)
     station = subject
     expect{(station.capacity + 1).times {station.dock_the_bike(bike)}}.to raise_error("Station is full")
   end
@@ -31,7 +31,7 @@ describe DockingStation do
   it "can store 20 bikes" do
     dockingstation = subject
     dockingstation.capacity.times do
-      expect{dockingstation.dock_the_bike(Bike.new)}.not_to raise_error
+      expect{dockingstation.dock_the_bike(double(:bike))}.not_to raise_error
     end
   end
 
@@ -45,20 +45,16 @@ describe DockingStation do
   #should respond_to(:release_bike).with(0).argument
 
   it 'reports a bike as broken when I return it' do
-    #checks whether by default bike is working
-    station = subject
-    station.dock_the_bike(Bike.new)
-    expect(station.bikes.last.working).to eq(true)
-
     #checks that if we pass that it is not working it communicates it to the bike
     station = subject
-    station.dock_the_bike(Bike.new, false)
+    station.dock_the_bike(double(:bike), false)
     expect(station.bikes.last.working).to eq(false)
+  end
 
-    #chacks whether we can say straight to the bikethat it is not working
-    station = subject
-    station.dock_the_bike(Bike.new(false))
-    expect(station.bikes.last.working).to eq(false)
+  it 'only releases a bike if it is working' do
+    station = DockingStation.new
+    station.dock_the_bike(double(:bike).working = false)
+    expect{station.release_bike}.to raise_error("Bike is broken")
   end
 
 end
