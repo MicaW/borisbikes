@@ -2,7 +2,7 @@ require_relative 'bike.rb'
 
 class DockingStation
 
-  def initialize(original_bike=0)
+  def initialize(original_bike=nil)
     @stations_bike = original_bike
   end
 
